@@ -370,14 +370,6 @@ export type Database = {
         Args: never
         Returns: Database["public"]["Enums"]["app_role"]
       }
-      has_role: {
-        Args: {
-          _role: Database["public"]["Enums"]["app_role"]
-          _user_id: string
-        }
-        Returns: boolean
-      }
-      is_owner: { Args: never; Returns: boolean }
       record_stock_movement: {
         Args: {
           _movement_type: Database["public"]["Enums"]["movement_type"]
