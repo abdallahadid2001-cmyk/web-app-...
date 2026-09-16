@@ -142,3 +142,11 @@
     color: var(--color-foreground);
   }
 }
+
+@theme {
+  --font-sans: "Cairo", ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  font-family: var(--font-sans);
+}
