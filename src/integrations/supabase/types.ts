@@ -46,18 +46,21 @@ export type Database = {
       }
       categories: {
         Row: {
+          active: boolean
           created_at: string
           id: string
           name: string
           updated_at: string
         }
         Insert: {
+          active?: boolean
           created_at?: string
           id?: string
           name: string
           updated_at?: string
         }
         Update: {
+          active?: boolean
           created_at?: string
           id?: string
           name?: string
@@ -68,6 +71,7 @@ export type Database = {
       products: {
         Row: {
           active: boolean
+          barcode: string | null
           category_id: string | null
           cost_price: number
           created_at: string
@@ -75,12 +79,12 @@ export type Database = {
           minimum_stock: number
           name: string
           selling_price: number
-          sku: string | null
           stock_quantity: number
           updated_at: string
         }
         Insert: {
           active?: boolean
+          barcode?: string | null
           category_id?: string | null
           cost_price?: number
           created_at?: string
@@ -88,12 +92,12 @@ export type Database = {
           minimum_stock?: number
           name: string
           selling_price?: number
-          sku?: string | null
           stock_quantity?: number
           updated_at?: string
         }
         Update: {
           active?: boolean
+          barcode?: string | null
           category_id?: string | null
           cost_price?: number
           created_at?: string
@@ -101,7 +105,6 @@ export type Database = {
           minimum_stock?: number
           name?: string
           selling_price?: number
-          sku?: string | null
           stock_quantity?: number
           updated_at?: string
         }
