@@ -143,7 +143,7 @@ function ProductsPage() {
         _product_id: vals.productId,
         _quantity: vals.qty,
         _movement_type: "purchase_in",
-        _note: vals.note || undefined,
+        ...(vals.note ? { _note: vals.note } : {}),
       });
       if (error) throw error;
     },

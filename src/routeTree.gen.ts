@@ -15,6 +15,7 @@ import { Route as AuthenticatedOwnerRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedSellerRouteImport } from './routes/_authenticated/seller'
 import { Route as AuthenticatedOwnerIndexRouteImport } from './routes/_authenticated/owner.index'
 import { Route as AuthenticatedOwnerCategoriesRouteImport } from './routes/_authenticated/owner.categories'
+import { Route as AuthenticatedOwnerProductsRouteImport } from './routes/_authenticated/owner.products'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -46,18 +47,26 @@ const AuthenticatedOwnerCategoriesRoute =
     path: '/categories',
     getParentRoute: () => AuthenticatedOwnerRoute,
   } as any)
+const AuthenticatedOwnerProductsRoute =
+  AuthenticatedOwnerProductsRouteImport.update({
+    id: '/products',
+    path: '/products',
+    getParentRoute: () => AuthenticatedOwnerRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/owner': typeof AuthenticatedOwnerRouteWithChildren
   '/seller': typeof AuthenticatedSellerRoute
   '/owner/categories': typeof AuthenticatedOwnerCategoriesRoute
+  '/owner/products': typeof AuthenticatedOwnerProductsRoute
   '/owner/': typeof AuthenticatedOwnerIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/seller': typeof AuthenticatedSellerRoute
   '/owner/categories': typeof AuthenticatedOwnerCategoriesRoute
+  '/owner/products': typeof AuthenticatedOwnerProductsRoute
   '/owner': typeof AuthenticatedOwnerIndexRoute
 }
 export interface FileRoutesById {
@@ -67,13 +76,20 @@ export interface FileRoutesById {
   '/_authenticated/owner': typeof AuthenticatedOwnerRouteWithChildren
   '/_authenticated/seller': typeof AuthenticatedSellerRoute
   '/_authenticated/owner/categories': typeof AuthenticatedOwnerCategoriesRoute
+  '/_authenticated/owner/products': typeof AuthenticatedOwnerProductsRoute
   '/_authenticated/owner/': typeof AuthenticatedOwnerIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/owner' | '/seller' | '/owner/categories' | '/owner/'
+  fullPaths:
+    | '/'
+    | '/owner'
+    | '/seller'
+    | '/owner/categories'
+    | '/owner/products'
+    | '/owner/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/seller' | '/owner/categories' | '/owner'
+  to: '/' | '/seller' | '/owner/categories' | '/owner/products' | '/owner'
   id:
     | '__root__'
     | '/'
@@ -81,6 +97,7 @@ export interface FileRouteTypes {
     | '/_authenticated/owner'
     | '/_authenticated/seller'
     | '/_authenticated/owner/categories'
+    | '/_authenticated/owner/products'
     | '/_authenticated/owner/'
   fileRoutesById: FileRoutesById
 }
@@ -133,16 +150,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedOwnerCategoriesRouteImport
       parentRoute: typeof AuthenticatedOwnerRoute
     }
+    '/_authenticated/owner/products': {
+      id: '/_authenticated/owner/products'
+      path: '/products'
+      fullPath: '/owner/products'
+      preLoaderRoute: typeof AuthenticatedOwnerProductsRouteImport
+      parentRoute: typeof AuthenticatedOwnerRoute
+    }
   }
 }
 
 interface AuthenticatedOwnerRouteChildren {
   AuthenticatedOwnerCategoriesRoute: typeof AuthenticatedOwnerCategoriesRoute
+  AuthenticatedOwnerProductsRoute: typeof AuthenticatedOwnerProductsRoute
   AuthenticatedOwnerIndexRoute: typeof AuthenticatedOwnerIndexRoute
 }
 
 const AuthenticatedOwnerRouteChildren: AuthenticatedOwnerRouteChildren = {
   AuthenticatedOwnerCategoriesRoute: AuthenticatedOwnerCategoriesRoute,
+  AuthenticatedOwnerProductsRoute: AuthenticatedOwnerProductsRoute,
   AuthenticatedOwnerIndexRoute: AuthenticatedOwnerIndexRoute,
 }
 
