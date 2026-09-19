@@ -16,6 +16,9 @@ import { Route as AuthenticatedSellerRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedOwnerIndexRouteImport } from './routes/_authenticated/owner.index'
 import { Route as AuthenticatedOwnerCategoriesRouteImport } from './routes/_authenticated/owner.categories'
 import { Route as AuthenticatedOwnerProductsRouteImport } from './routes/_authenticated/owner.products'
+import { Route as AuthenticatedOwnerShortagesRouteImport } from './routes/_authenticated/owner.shortages'
+import { Route as AuthenticatedSellerIndexRouteImport } from './routes/_authenticated/seller.index'
+import { Route as AuthenticatedSellerPosRouteImport } from './routes/_authenticated/seller.pos'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -53,31 +56,56 @@ const AuthenticatedOwnerProductsRoute =
     path: '/products',
     getParentRoute: () => AuthenticatedOwnerRoute,
   } as any)
+const AuthenticatedOwnerShortagesRoute =
+  AuthenticatedOwnerShortagesRouteImport.update({
+    id: '/shortages',
+    path: '/shortages',
+    getParentRoute: () => AuthenticatedOwnerRoute,
+  } as any)
+const AuthenticatedSellerIndexRoute =
+  AuthenticatedSellerIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedSellerRoute,
+  } as any)
+const AuthenticatedSellerPosRoute = AuthenticatedSellerPosRouteImport.update({
+  id: '/pos',
+  path: '/pos',
+  getParentRoute: () => AuthenticatedSellerRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/owner': typeof AuthenticatedOwnerRouteWithChildren
-  '/seller': typeof AuthenticatedSellerRoute
+  '/seller': typeof AuthenticatedSellerRouteWithChildren
   '/owner/categories': typeof AuthenticatedOwnerCategoriesRoute
   '/owner/products': typeof AuthenticatedOwnerProductsRoute
+  '/owner/shortages': typeof AuthenticatedOwnerShortagesRoute
+  '/seller/pos': typeof AuthenticatedSellerPosRoute
   '/owner/': typeof AuthenticatedOwnerIndexRoute
+  '/seller/': typeof AuthenticatedSellerIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/seller': typeof AuthenticatedSellerRoute
   '/owner/categories': typeof AuthenticatedOwnerCategoriesRoute
   '/owner/products': typeof AuthenticatedOwnerProductsRoute
+  '/owner/shortages': typeof AuthenticatedOwnerShortagesRoute
+  '/seller/pos': typeof AuthenticatedSellerPosRoute
   '/owner': typeof AuthenticatedOwnerIndexRoute
+  '/seller': typeof AuthenticatedSellerIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/_authenticated/owner': typeof AuthenticatedOwnerRouteWithChildren
-  '/_authenticated/seller': typeof AuthenticatedSellerRoute
+  '/_authenticated/seller': typeof AuthenticatedSellerRouteWithChildren
   '/_authenticated/owner/categories': typeof AuthenticatedOwnerCategoriesRoute
   '/_authenticated/owner/products': typeof AuthenticatedOwnerProductsRoute
+  '/_authenticated/owner/shortages': typeof AuthenticatedOwnerShortagesRoute
+  '/_authenticated/seller/pos': typeof AuthenticatedSellerPosRoute
   '/_authenticated/owner/': typeof AuthenticatedOwnerIndexRoute
+  '/_authenticated/seller/': typeof AuthenticatedSellerIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -87,9 +115,19 @@ export interface FileRouteTypes {
     | '/seller'
     | '/owner/categories'
     | '/owner/products'
+    | '/owner/shortages'
+    | '/seller/pos'
     | '/owner/'
+    | '/seller/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/seller' | '/owner/categories' | '/owner/products' | '/owner'
+  to:
+    | '/'
+    | '/owner/categories'
+    | '/owner/products'
+    | '/owner/shortages'
+    | '/seller/pos'
+    | '/owner'
+    | '/seller'
   id:
     | '__root__'
     | '/'
@@ -98,7 +136,10 @@ export interface FileRouteTypes {
     | '/_authenticated/seller'
     | '/_authenticated/owner/categories'
     | '/_authenticated/owner/products'
+    | '/_authenticated/owner/shortages'
+    | '/_authenticated/seller/pos'
     | '/_authenticated/owner/'
+    | '/_authenticated/seller/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -157,32 +198,68 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedOwnerProductsRouteImport
       parentRoute: typeof AuthenticatedOwnerRoute
     }
+    '/_authenticated/owner/shortages': {
+      id: '/_authenticated/owner/shortages'
+      path: '/shortages'
+      fullPath: '/owner/shortages'
+      preLoaderRoute: typeof AuthenticatedOwnerShortagesRouteImport
+      parentRoute: typeof AuthenticatedOwnerRoute
+    }
+    '/_authenticated/seller/': {
+      id: '/_authenticated/seller/'
+      path: '/'
+      fullPath: '/seller/'
+      preLoaderRoute: typeof AuthenticatedSellerIndexRouteImport
+      parentRoute: typeof AuthenticatedSellerRoute
+    }
+    '/_authenticated/seller/pos': {
+      id: '/_authenticated/seller/pos'
+      path: '/pos'
+      fullPath: '/seller/pos'
+      preLoaderRoute: typeof AuthenticatedSellerPosRouteImport
+      parentRoute: typeof AuthenticatedSellerRoute
+    }
   }
 }
 
 interface AuthenticatedOwnerRouteChildren {
   AuthenticatedOwnerCategoriesRoute: typeof AuthenticatedOwnerCategoriesRoute
   AuthenticatedOwnerProductsRoute: typeof AuthenticatedOwnerProductsRoute
+  AuthenticatedOwnerShortagesRoute: typeof AuthenticatedOwnerShortagesRoute
   AuthenticatedOwnerIndexRoute: typeof AuthenticatedOwnerIndexRoute
 }
 
 const AuthenticatedOwnerRouteChildren: AuthenticatedOwnerRouteChildren = {
   AuthenticatedOwnerCategoriesRoute: AuthenticatedOwnerCategoriesRoute,
   AuthenticatedOwnerProductsRoute: AuthenticatedOwnerProductsRoute,
+  AuthenticatedOwnerShortagesRoute: AuthenticatedOwnerShortagesRoute,
   AuthenticatedOwnerIndexRoute: AuthenticatedOwnerIndexRoute,
 }
 
 const AuthenticatedOwnerRouteWithChildren =
   AuthenticatedOwnerRoute._addFileChildren(AuthenticatedOwnerRouteChildren)
 
+interface AuthenticatedSellerRouteChildren {
+  AuthenticatedSellerPosRoute: typeof AuthenticatedSellerPosRoute
+  AuthenticatedSellerIndexRoute: typeof AuthenticatedSellerIndexRoute
+}
+
+const AuthenticatedSellerRouteChildren: AuthenticatedSellerRouteChildren = {
+  AuthenticatedSellerPosRoute: AuthenticatedSellerPosRoute,
+  AuthenticatedSellerIndexRoute: AuthenticatedSellerIndexRoute,
+}
+
+const AuthenticatedSellerRouteWithChildren =
+  AuthenticatedSellerRoute._addFileChildren(AuthenticatedSellerRouteChildren)
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedOwnerRoute: typeof AuthenticatedOwnerRouteWithChildren
-  AuthenticatedSellerRoute: typeof AuthenticatedSellerRoute
+  AuthenticatedSellerRoute: typeof AuthenticatedSellerRouteWithChildren
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedOwnerRoute: AuthenticatedOwnerRouteWithChildren,
-  AuthenticatedSellerRoute: AuthenticatedSellerRoute,
+  AuthenticatedSellerRoute: AuthenticatedSellerRouteWithChildren,
 }
 
 const AuthenticatedRouteRouteWithChildren =
