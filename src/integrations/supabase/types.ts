@@ -75,12 +75,17 @@ export type Database = {
           category_id: string | null
           cost_price: number
           created_at: string
+          group_name: string | null
           id: string
           minimum_stock: number
           name: string
+          pack_cost: number | null
+          pack_quantity: number | null
           selling_price: number
+          sold_count: number
           stock_quantity: number
           updated_at: string
+          variant_label: string | null
         }
         Insert: {
           active?: boolean
@@ -88,12 +93,17 @@ export type Database = {
           category_id?: string | null
           cost_price?: number
           created_at?: string
+          group_name?: string | null
           id?: string
           minimum_stock?: number
           name: string
+          pack_cost?: number | null
+          pack_quantity?: number | null
           selling_price?: number
+          sold_count?: number
           stock_quantity?: number
           updated_at?: string
+          variant_label?: string | null
         }
         Update: {
           active?: boolean
@@ -101,12 +111,17 @@ export type Database = {
           category_id?: string | null
           cost_price?: number
           created_at?: string
+          group_name?: string | null
           id?: string
           minimum_stock?: number
           name?: string
+          pack_cost?: number | null
+          pack_quantity?: number | null
           selling_price?: number
+          sold_count?: number
           stock_quantity?: number
           updated_at?: string
+          variant_label?: string | null
         }
         Relationships: [
           {
@@ -269,6 +284,47 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      shortage_requests: {
+        Row: {
+          created_at: string
+          id: string
+          note: string | null
+          product_id: string | null
+          product_name: string
+          resolved: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          note?: string | null
+          product_id?: string | null
+          product_name?: string
+          resolved?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          note?: string | null
+          product_id?: string | null
+          product_name?: string
+          resolved?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shortage_requests_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       stock_movements: {
         Row: {
